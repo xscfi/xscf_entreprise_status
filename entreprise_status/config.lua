@@ -1,30 +1,21 @@
 Config = {}
 
--- Entreprises configurées
+-- Cooldown en secondes
+Config.Cooldown = 60
+
 Config.Entreprises = {
     burgershot = {
         label = "BurgerShot",
         icon = "🍔",
-        jobs = { "burgershot" } -- jobs autorisés
+        jobs = { "burgershot" },
+        duration = 7000, -- ms
+        position = 1 -- 0 = haut gauche, 1 = bas droite, 2 = centre
     },
     bahamas = {
-        label = "Bahamas",
-        icon = "🍸",
-        jobs = { "bahamas" }
-    },
-    mecano = {
-        label = "Mécano",
-        icon = "🔧",
-        jobs = { "mechanic", "mecano" } -- tu peux mettre plusieurs noms de jobs
-    },
-    taxi = {
-        label = "Taxi",
-        icon = "🚕",
-        jobs = { "taxi" }
-    },
-    police = {
-        label = "LSPD",
-        icon = "👮",
-        jobs = { "police" }
+        label = "Bahama Mamas",
+        icon = "🍹",
+        jobs = { "bahamas" },
+        duration = 10000,
+        position = 2
     }
 }

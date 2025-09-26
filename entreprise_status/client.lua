@@ -1,9 +1,5 @@
-RegisterNetEvent("entreprise:notifyAll")
-AddEventHandler("entreprise:notifyAll", function(data)
-    SendNUIMessage({
-        action = "showNotification",
-        title = data.title,
-        message = data.message,
-        icon = data.icon
-    })
+RegisterNetEvent("entreprise_status:notify", function(msg, duration, position)
+    SetNotificationTextEntry("STRING")
+    AddTextComponentString(msg)
+    DrawNotification(false, true)
 end)

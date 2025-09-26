@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'xscfi'
 description 'Notifications GTA custom entreprises'
-version '1.3.0'
+version '1.4.0'
 
 ui_page 'html/index.html'
 
@@ -13,7 +13,7 @@ files {
     'html/script.js'
 }
 
-shared_script 'config.lua'   -- 👈 config chargée automatiquement côté serveur et client
+shared_script 'config.lua'
 
 server_scripts {
     'server.lua'

@@ -1,51 +1,59 @@
 ESX = exports["es_extended"]:getSharedObject()
 
--- Vérifie si le joueur a le job requis
-function PlayerHasJob(source, jobList)
-    -- Exemple pour ESX (à adapter si tu utilises QBCore)
-    local xPlayer = ESX.GetPlayerFromId(source)
-    if not xPlayer then return false end
+local lastAction = {}
 
-    for _, job in ipairs(jobList) do
-        if xPlayer.getJob().name == job then
-            return true
+function GetPlayerEntreprise(source)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    if not xPlayer then return nil end
+    local jobName = xPlayer.getJob().name
+
+    for name, data in pairs(Config.Entreprises) do
+        for _, job in ipairs(data.jobs) do
+            if jobName == job then
+                return name, data
+            end
         end
     end
-    return false
+    return nil
 end
 
-RegisterCommand("open", function(source, args)
-    local job = args[1]
-    if job and Config.Entreprises[job] then
-        if PlayerHasJob(source, Config.Entreprises[job].jobs) then
-            local data = {
-                title = Config.Entreprises[job].label,
-                message = Config.Entreprises[job].label .. " est maintenant OUVERT ! Venez nombreux 🚀",
-                icon = Config.Entreprises[job].icon
-            }
-            TriggerClientEvent("entreprise:notifyAll", -1, data)
-        else
-            TriggerClientEvent("chat:addMessage", source, { args = { "SYSTEM", "Tu n'as pas accès à cette commande !" } })
-        end
-    else
-        TriggerClientEvent("chat:addMessage", source, { args = { "SYSTEM", "Entreprise invalide." } })
+function CanNotify(source)
+    local now = os.time()
+    if lastAction[source] and now - lastAction[source] < Config.Cooldown then
+        return false
     end
-end, false)
+    lastAction[source] = now
+    return true
+end
 
-RegisterCommand("close", function(source, args)
-    local job = args[1]
-    if job and Config.Entreprises[job] then
-        if PlayerHasJob(source, Config.Entreprises[job].jobs) then
-            local data = {
-                title = Config.Entreprises[job].label,
-                message = Config.Entreprises[job].label .. " est maintenant FERMÉ. Merci de votre visite 🙏",
-                icon = Config.Entreprises[job].icon
-            }
-            TriggerClientEvent("entreprise:notifyAll", -1, data)
-        else
-            TriggerClientEvent("chat:addMessage", source, { args = { "SYSTEM", "Tu n'as pas accès à cette commande !" } })
-        end
-    else
-        TriggerClientEvent("chat:addMessage", source, { args = { "SYSTEM", "Entreprise invalide." } })
+RegisterCommand("open", function(source)
+    local entreprise, data = GetPlayerEntreprise(source)
+    if not entreprise then
+        TriggerClientEvent("chat:addMessage", source, { args = { "[SYSTEM]", "Tu n'as pas accès à cette commande." } })
+        return
     end
-end, false)
+
+    if not CanNotify(source) then
+        TriggerClientEvent("chat:addMessage", source, { args = { "[SYSTEM]", "Attends avant de réutiliser la commande." } })
+        return
+    end
+
+    local msg = data.icon .. " " .. data.label .. " est maintenant ~g~OUVERT~s~ !"
+    TriggerClientEvent("entreprise_status:notify", -1, msg, data.duration, data.position)
+end)
+
+RegisterCommand("close", function(source)
+    local entreprise, data = GetPlayerEntreprise(source)
+    if not entreprise then
+        TriggerClientEvent("chat:addMessage", source, { args = { "[SYSTEM]", "Tu n'as pas accès à cette commande." } })
+        return
+    end
+
+    if not CanNotify(source) then
+        TriggerClientEvent("chat:addMessage", source, { args = { "[SYSTEM]", "Attends avant de réutiliser la commande." } })
+        return
+    end
+
+    local msg = data.icon .. " " .. data.label .. " est maintenant ~r~FERMÉ~s~ !"
+    TriggerClientEvent("entreprise_status:notify", -1, msg, data.duration, data.position)
+end)
