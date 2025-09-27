@@ -1,0 +1,56 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+#notif-container {
+  position: absolute;
+  top: 100px;
+  left: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  width: 420px;
+  animation: fadein 0.4s, fadeout 0.4s 4.6s;
+}
+
+.notification-icon {
+  font-size: 35px; 
+  margin-right: 15px;
+}
+
+.notification-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.notification-message {
+  font-size: 18px; 
+}
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateX(-30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeout {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
