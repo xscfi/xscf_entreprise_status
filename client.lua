@@ -1,0 +1,5 @@
+RegisterNetEvent("entreprise_status:notify", function(msg, duration, position)
+    SetNotificationTextEntry("STRING")
+    AddTextComponentString(msg)
+    DrawNotification(false, true)
+end)
