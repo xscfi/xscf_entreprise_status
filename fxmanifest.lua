@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'xscfi'
 description 'Notifications entreprises'
-version '1.4.3'
+version '1.4.4'
 
 ui_page 'html/index.html'
 
@@ -23,3 +23,4 @@ server_scripts {
 client_scripts {
     'client.lua'
 }
+
