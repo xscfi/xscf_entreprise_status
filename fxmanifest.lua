@@ -16,7 +16,8 @@ files {
 shared_script 'config.lua'
 
 server_scripts {
-    'server.lua'
+    'server.lua',
+    'update_checker.lua'
 }
 
 client_scripts {
