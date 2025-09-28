@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'xscfi'
 description 'Notifications entreprises'
-version '1.4.1'
+version '1.4.3'
 
 ui_page 'html/index.html'
 
